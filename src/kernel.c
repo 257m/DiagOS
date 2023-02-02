@@ -1,10 +1,9 @@
-typedef unsigned char uint8_t;
+#include "../include/typedefs.h"
 
 void putstr(char* string)
 {
-	unsigned int i = 0;
-	uint8_t screen_width = 0;
 	char* vga = (char*)0xb8000;
+	unsigned int i = 0;
 	while (string[i] != '\0') {
 		switch (string[i]) {
 			case '\n':
@@ -12,7 +11,7 @@ void putstr(char* string)
 				i++;
 				continue;
 			case '\r':
-				screen_width = 0;
+				vga -= ((long unsigned int)vga + 0x10) % 80;
 				i++;
 				continue;
 			case '\b':
@@ -23,11 +22,9 @@ void putstr(char* string)
 			default:
 				break;
 		}
-		if (screen_width >= 80)
-			screen_width = 0;
-		*((char*)(vga + screen_width*2)) = string[i];
+		*vga = string[i];
+		vga += 0x2;
 		i++;
-		screen_width++;
 	}
 }
 

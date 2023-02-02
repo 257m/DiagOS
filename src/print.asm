@@ -45,3 +45,20 @@ print_num:
 		pop bp
 		ret
 
+print_string32:
+	pusha
+	mov edx, 0xb8000
+	.loop:
+		mov al, [ebx]
+		mov ah, 0x7
+
+		cmp al, 0x00
+		je .end
+
+		mov [edx], ax
+		inc ebx
+		add edx,2
+		
+		jmp .loop
+	.end:
+		ret
