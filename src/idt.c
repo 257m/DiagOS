@@ -40,7 +40,7 @@ struct idt_ptr _idtp;
 extern void _idt_load();
 
 void idt_set_gate
-(unsigned num, unsigned long base, unsigned short sel,unsigned char flags)
+(unsigned num, unsigned long base, unsigned short sel, unsigned char flags)
 {
 	idt[num].base_lo = base & 0x0000FFFF;
 	idt[num].base_hi = (base & 0xFFFF0000) >> 16;
